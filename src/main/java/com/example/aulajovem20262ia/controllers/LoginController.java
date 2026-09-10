@@ -2,6 +2,9 @@ package com.example.aulajovem20262ia.controllers;
 
 import com.example.aulajovem20262ia.DTO.LoginRequest;
 import com.example.aulajovem20262ia.DTO.LoginResponse;
+import com.example.aulajovem20262ia.entities.Usuario;
+import com.example.aulajovem20262ia.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,11 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class LoginController {
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @PostMapping
     public ResponseEntity<LoginResponse> logar(@RequestBody LoginRequest loginRequest){
 
-        if (loginRequest.getLogin().equals("string")
-                && loginRequest.getSenha().equals("string")){
+
+
+        if ( usuarioRepository.existsUsuarioByCpfAndSenha(loginRequest.getLogin(),
+                loginRequest.getSenha()) ){
 
             LoginResponse loginResponse = new LoginResponse();
             loginResponse.setMensagem("Bem vindo! Ao sistema de alunos!");

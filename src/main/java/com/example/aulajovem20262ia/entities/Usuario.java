@@ -35,6 +35,20 @@ public class Usuario {
 
     private String status;
 
+    private String senha;
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public LocalDateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
