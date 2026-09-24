@@ -4,6 +4,7 @@ import com.example.aulajovem20262ia.DTO.AtualizaStatusUsuarioRequest;
 import com.example.aulajovem20262ia.DTO.UsuarioRequest;
 import com.example.aulajovem20262ia.DTO.UsuarioResponse;
 import com.example.aulajovem20262ia.entities.Usuario;
+import com.example.aulajovem20262ia.repository.EmpresaRepository;
 import com.example.aulajovem20262ia.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private EmpresaRepository empresaRepository;
 
     @GetMapping
     public List<Usuario> ConsultaUsuario(){
@@ -45,11 +49,18 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<UsuarioResponse> CadastrarUsuario(@RequestBody UsuarioRequest usuarioRequest){
 
+        var empresaBanco = empresaRepository.findById(usuarioRequest.getEmpresa_id()).orElse(null);
+
+        if(empresaBanco == null){
+            return ResponseEntity.notFound().build();
+        }
+
         Usuario usuarioBanco = new Usuario();
         usuarioBanco.setNome(usuarioRequest.getNome());
         usuarioBanco.setCpf(usuarioRequest.getCpf());
         usuarioBanco.setDataNascimento(usuarioRequest.getDataNascimento());
         usuarioBanco.setSenha(usuarioRequest.getSenha());
+        usuarioBanco.setEmpresa(empresaBanco);
 
         usuarioBanco.setDataCadastro(LocalDateTime.now());
         usuarioBanco.setStatus("A");
