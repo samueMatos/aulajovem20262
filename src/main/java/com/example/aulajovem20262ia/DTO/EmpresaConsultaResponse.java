@@ -1,37 +1,46 @@
-package com.example.aulajovem20262ia.entities;
+package com.example.aulajovem20262ia.DTO;
 
-import jakarta.persistence.*;
+import com.example.aulajovem20262ia.entities.Empresa;
 
-import java.util.List;
+public class EmpresaConsultaResponse {
 
-@Entity
-public class Empresa {
 
-    public Empresa() {
+    public EmpresaConsultaResponse() {
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public EmpresaConsultaResponse(Empresa empresa) {
+        this.cnpj = empresa.getCnpj();
+        this.razaoSocial = empresa.getRazaoSocial();
+        this.nomeFantasia = empresa.getNomeFantasia();
+        this.inscricaoEstaual = empresa.getInscricaoEstaual();
+        this.id = empresa.getId();
+
+
+        if(empresa.getUsuarios()!= null){
+            this.quantidadeUsuario = empresa.getUsuarios().size();
+        }else {
+            this.quantidadeUsuario = 0;
+        }
+    }
+
     private Long id;
 
     private String razaoSocial;
 
     private String nomeFantasia;
 
-    @Column(unique = true)
     private String cnpj;
 
     private String inscricaoEstaual;
 
-    @OneToMany(mappedBy = "empresa")
-    private List<Usuario> usuarios;
+    private int quantidadeUsuario;
 
-    public List<Usuario> getUsuarios() {
-        return usuarios;
+    public int getQuantidadeUsuario() {
+        return quantidadeUsuario;
     }
 
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
+    public void setQuantidadeUsuario(int quantidadeUsuario) {
+        this.quantidadeUsuario = quantidadeUsuario;
     }
 
     public Long getId() {

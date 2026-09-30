@@ -1,6 +1,7 @@
 package com.example.aulajovem20262ia.controllers;
 
 import com.example.aulajovem20262ia.DTO.AtualizaStatusUsuarioRequest;
+import com.example.aulajovem20262ia.DTO.UsuarioConsultaResponse;
 import com.example.aulajovem20262ia.DTO.UsuarioRequest;
 import com.example.aulajovem20262ia.DTO.UsuarioResponse;
 import com.example.aulajovem20262ia.entities.Usuario;
@@ -24,19 +25,22 @@ public class UsuarioController {
     private EmpresaRepository empresaRepository;
 
     @GetMapping
-    public List<Usuario> ConsultaUsuario(){
-        return usuarioRepository.findAll();
+    public List<UsuarioConsultaResponse> ConsultaUsuario(){
+
+        return usuarioRepository.findAll()
+                .stream()
+                .map(UsuarioConsultaResponse::new).toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> ConsultaUsuarioPorId(@PathVariable Long id){
+    public ResponseEntity<UsuarioConsultaResponse> ConsultaUsuarioPorId(@PathVariable Long id){
         var usuario = usuarioRepository.findById(id).orElse(null);
 
         if(usuario == null){
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(usuario);
+        return ResponseEntity.ok(new UsuarioConsultaResponse(usuario));
     }
 
     @GetMapping("/empresa/{empresaId}")
@@ -79,6 +83,13 @@ public class UsuarioController {
         Usuario usuarioBanco = usuarioRepository.findById(id).orElse(null);
 
         if(usuarioBanco != null){
+
+            var empresaBanco = empresaRepository.findById(usuarioRequest.getEmpresa_id()).orElse(null);
+            if(empresaBanco == null){
+                return ResponseEntity.notFound().build();
+            }
+
+            usuarioBanco.setEmpresa(empresaBanco);
             usuarioBanco.setNome(usuarioRequest.getNome());
             usuarioBanco.setCpf(usuarioRequest.getCpf());
             usuarioBanco.setDataNascimento(usuarioRequest.getDataNascimento());
