@@ -4,6 +4,8 @@ import com.example.aulajovem20262ia.controllers.UsuarioController;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Usuario {
@@ -34,6 +36,14 @@ public class Usuario {
 
     private String senha;
 
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "usuario_cursos",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "curso_id")
+    )
+    private Set<Curso> cursos = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "empresa_id", referencedColumnName = "id")
@@ -112,5 +122,11 @@ public class Usuario {
         this.dataNascimento = dataNascimento;
     }
 
+    public Set<Curso> getCursos() {
+        return cursos;
+    }
 
+    public void setCursos(Set<Curso> cursos) {
+        this.cursos = cursos;
+    }
 }
