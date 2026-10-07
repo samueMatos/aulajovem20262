@@ -4,8 +4,10 @@ package com.example.aulajovem20262ia.controllers;
 import com.example.aulajovem20262ia.DTO.CursoConsultaResponse;
 import com.example.aulajovem20262ia.DTO.CursoRequest;
 import com.example.aulajovem20262ia.DTO.CursoResponse;
+import com.example.aulajovem20262ia.DTO.MatriculaRequest;
 import com.example.aulajovem20262ia.entities.Curso;
 import com.example.aulajovem20262ia.repository.CursoRepository;
+import com.example.aulajovem20262ia.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,9 @@ public class CursoController {
 
     @Autowired
     private CursoRepository cursoRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @PostMapping
     public ResponseEntity<CursoResponse> cadastrarCurso(@RequestBody CursoRequest cursoRequest){
@@ -46,5 +51,33 @@ public class CursoController {
 
 
     }
+
+
+    @PostMapping("/matricula")
+    public ResponseEntity<CursoResponse> matricular(@RequestBody MatriculaRequest matriculaRequest) {
+
+        var usuarioBanco = usuarioRepository.findById(matriculaRequest.getUsuario_id()).orElse(null);
+
+
+        var cursoBanco = cursoRepository.findById(matriculaRequest.getCurso_id()).orElse(null);
+
+        if(usuarioBanco == null || cursoBanco ==null){
+            return ResponseEntity.notFound().build();
+        }
+
+        if(cursoBanco.getAlunos().contains(usuarioBanco)){
+            throw  new IllegalArgumentException("Aluno Ja cadastrado nesse curso!");
+        }
+
+        cursoBanco.adicionarAluno(usuarioBanco);
+
+        cursoRepository.save(cursoBanco);
+
+
+        return ResponseEntity.ok(new CursoResponse(cursoBanco.getId(),"lasanha2"));
+
+
+    }
+
 
 }

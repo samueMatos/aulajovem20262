@@ -32,6 +32,11 @@ public class Curso {
     private Usuario usuarioCadastro;
 
 
+    public void adicionarAluno(Usuario usuario){
+        this.alunos.add(usuario);
+        usuario.getCursos().add(this);
+    }
+
     public Set<Usuario> getAlunos() {
         return alunos;
     }
