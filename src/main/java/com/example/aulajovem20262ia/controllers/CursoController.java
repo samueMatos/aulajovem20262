@@ -8,6 +8,7 @@ import com.example.aulajovem20262ia.DTO.MatriculaRequest;
 import com.example.aulajovem20262ia.entities.Curso;
 import com.example.aulajovem20262ia.repository.CursoRepository;
 import com.example.aulajovem20262ia.repository.UsuarioRepository;
+import com.example.aulajovem20262ia.utils.CpfUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,8 @@ public class CursoController {
     public ResponseEntity<CursoResponse> cadastrarCurso(@RequestBody CursoRequest cursoRequest){
         Curso cursoBanco = new Curso();
 
+
+
         cursoBanco.setDescricao(cursoRequest.getDescricao());
         cursoBanco.setTitulo(cursoRequest.getTitulo());
 
@@ -42,7 +45,7 @@ public class CursoController {
     @GetMapping
     public ResponseEntity<List<CursoConsultaResponse>> listarTodos(){
 
-
+        var cpf = CpfUtils.isValidCpf("1111111111");
         var listaCurso = cursoRepository.findAll()
                 .stream()
                 .map(CursoConsultaResponse::new).toList();

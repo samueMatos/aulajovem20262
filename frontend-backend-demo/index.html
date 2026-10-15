@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <main class="login-page">
+      <section class="login-card">
+        <div class="login-header">
+          <h1>Entrar</h1>
+          <p>Acesse o sistema de alunos</p>
+        </div>
+
+        <form id="loginForm" novalidate onsubmit="loginUsuario(event)">
+          <div class="field">
+            <label for="login">Login</label>
+            <input
+              id="login"
+              name="login"
+              type="text"
+              placeholder="Digite seu login"
+              autocomplete="username"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label for="senha">Senha</label>
+            <input
+              id="senha"
+              name="senha"
+              type="password"
+              placeholder="Digite sua senha"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+
+          <button type="submit">Entrar</button>
+        </form>
+
+        <div id="feedback" class="feedback" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <script src="./js/api.js"></script>
+    <script src="./js/main.js"></script>
+  </body>
+</html>
