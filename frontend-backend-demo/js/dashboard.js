@@ -91,7 +91,8 @@ const pageTitle = document.getElementById('pageTitle');
 const pageContent = document.getElementById('pageContent');
 const navItems = document.querySelectorAll('.nav-item');
 
-if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+if (!localStorage.getItem('token')) {
+  sessionStorage.removeItem('isLoggedIn');
   window.location.href = 'index.html';
 }
 
@@ -113,6 +114,7 @@ function renderSection(sectionKey) {
 
 function logoutUsuario() {
   sessionStorage.removeItem('isLoggedIn');
+  localStorage.removeItem('token');
   window.location.href = 'index.html';
 }
 

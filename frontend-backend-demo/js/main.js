@@ -3,7 +3,7 @@ const loginInput = document.getElementById('login');
 const senhaInput = document.getElementById('senha');
 const feedback = document.getElementById('feedback');
 
-if (sessionStorage.getItem('isLoggedIn') === 'true') {
+if (sessionStorage.getItem('isLoggedIn') === 'true' || localStorage.getItem('token')) {
   window.location.href = 'dashboard.html';
 }
 
@@ -27,6 +27,13 @@ async function loginUsuario(event) {
 
   try {
     const data = await login({ login: loginValue, senha });
+
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      exibirMensagem('Login realizado, mas o token não foi recebido pela API.', 'error');
+      return;
+    }
 
     sessionStorage.setItem('isLoggedIn', 'true');
     exibirMensagem(
