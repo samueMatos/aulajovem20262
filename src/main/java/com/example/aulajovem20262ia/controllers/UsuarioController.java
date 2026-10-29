@@ -7,6 +7,8 @@ import com.example.aulajovem20262ia.DTO.UsuarioResponse;
 import com.example.aulajovem20262ia.entities.Usuario;
 import com.example.aulajovem20262ia.repository.EmpresaRepository;
 import com.example.aulajovem20262ia.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
+@Tag(name = "Usuario Controller",
+        description = "Classe responsavel por fazer o controle do CRUD de Usuários!" +
+                "aksdjkasjd" +
+                "alskdalksd" +
+                "sakjdkajskdjaksjd")
 public class UsuarioController {
 
     @Autowired
@@ -33,6 +40,9 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar Usuario Por ID", description = "Medodo de consulta de " +
+            "usuario por ID que retorna somente um usuario e recebo como " +
+            "parametro o RPth varieble id e retorna como saida o objeto do DTO X!")
     public ResponseEntity<UsuarioConsultaResponse> ConsultaUsuarioPorId(@PathVariable Long id){
         var usuario = usuarioRepository.findById(id).orElse(null);
 

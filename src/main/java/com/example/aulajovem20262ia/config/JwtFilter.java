@@ -22,9 +22,6 @@ public class JwtFilter extends OncePerRequestFilter {
     @Value("${spring.emissor}")
     private String emissor;
 
-
-
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
