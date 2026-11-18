@@ -8,7 +8,7 @@ public class Aulajovem20262IaApplication {
 
     public static void main(String[] args) {
 
-        SpringApplication.run(Aulajovem20262IaApplication.class, args);
+        SpringApplication.run(Au lajovem20262IaApplication.class, args);
     }
 
 }
